@@ -1,0 +1,11 @@
+// 多设备匹配
+
+.devices-mx(@devices, @percent, @index: 1) when(@index <= length(@devices)) {
+    @media (min-width: extract(@devices, @index)) {
+        html {
+            font-size: @percent * extract(@devices, @index);
+        }
+    }
+
+    .devices-mx(@devices, @percent, @index + 1);
+}
