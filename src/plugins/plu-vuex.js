@@ -18,7 +18,8 @@ export default new Vuex.Store({
     },
     mutations: {
         addHis: (state, his) => {
-            state.history.push(his);
+            const { history } = state;
+            history.indexOf(his) === -1 && (history.push(his));
         },
         removeHis: (state, his) => {
             const { history } = state,
@@ -27,6 +28,11 @@ export default new Vuex.Store({
         },
         clear: state => {
             state.history.splice(0);
+        },
+        moveToHead: (state, his) => {
+            const { history } = state,
+                index = history.indexOf(his);
+            history.unshift(...history.splice(index, 1));
         }
     }
 });

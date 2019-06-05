@@ -1,5 +1,7 @@
 <template>
     <lay-series :displayTitle="displayTitle"
+                :refreshable="refreshable"
+                :loadable="loadable"
                 @emitLoadMore="loadMore"
                 @emitRefresh="refresh">
         <ser-news :news="todayNews"
@@ -22,30 +24,33 @@ export default {
     },
     data: () => ({
         displayTitle: '今日热点新闻',
+        refreshable: true,
+        loadable: true,
         todayNews: [],
         curCategore: CATEGORIES[DEFAULT]
     }),
     methods: {
         randomCategore: function() {
-            const len = CATEGORIES.length;
-            return CATEGORIES[Math.floor(Math.random() * len)];
+            const len = CATEGORIES.length,
+                index = CATEGORIES.indexOf(this.curCategore) + 1;
+            return CATEGORIES[index >= len ? 0 : index];
         },
         joinUrl: function(categore, start) {
             return [URL, categore, `${start}-${COUNT}.html`].join('/');
         },
-        requestNews: async function(start) {
+        requestNews: async function(start, lay) {
             let news;
             try {
                 news = await jsonp({
                     url: this.joinUrl(this.curCategore, start),
                     query: {},
                     cacheMode: false,
-                    timeout: 10000,
                     proxy: 'artiList'
                 });
             } catch(err) {
                 if(!err.forecastable) throw err;
-                return;
+                console.log(`获取新闻时发生错误，错误信息：${err.message}`);
+                return lay && (lay.reset());
             }
             return news[this.curCategore].map(cur => ({
                 id: cur.docid,
@@ -58,18 +63,18 @@ export default {
 
         },
         loadMore: async function(loadCount, lay) {
-            const news = await this.requestNews(loadCount * COUNT);
+            const news = await this.requestNews(loadCount * COUNT, lay);
             this.todayNews.push(...news);
             lay.reset();
         },
         refresh: async function(lay) {
             this.curCategore = this.randomCategore();
-            const news = await this.requestNews(0);
+            const news = await this.requestNews(0, lay);
             this.todayNews.splice(0, this.todayNews.length, ...news);
             lay.reset();
         }
     },
-    mounted: async function() {
+    created: async function() {
         const news = await this.requestNews(0);
         this.todayNews.push(...news);
     }

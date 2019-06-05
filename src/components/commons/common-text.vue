@@ -8,6 +8,7 @@
                ref="icon"
             ></i>
             <input class="common-text-input"
+                   ref="input"
                    :placeholder="comment"
                    :type="textType"
                    :style="{ 
@@ -52,6 +53,10 @@ export default {
             type: String,
             default: '',
             validator: val => typeof val === 'string'
+        },
+        focus: {
+            type: Boolean,
+            default: false
         }
     },
     data: () => ({
@@ -66,6 +71,7 @@ export default {
             res + this.getValue(this.$el.firstElementChild, prop), 0
         ) + this.iconHeight;
         this.radius = parentHeight / 2;
+        this.focus && (this.$refs.input.focus());
     },
     methods: {
         getValue: function(el, prop) {
@@ -110,6 +116,7 @@ export default {
         font-size: @v-font-size;
         font-family: @v-font-family;
         color: @v-third-color;
+        line-height: 100%;
     }
 }
 </style>

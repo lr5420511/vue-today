@@ -2,6 +2,7 @@
     <com-text :comment="displayText"
               :icon="icon"
               :realWidth="realWidth"
+              :focus="initFocus"
               v-model="value"
               @input="inputHook"
               @emitEnter="enterHook"
@@ -26,6 +27,10 @@ export default {
             type: String,
             default: '键入文本以便于搜索',
             validator: val => typeof val === 'string'
+        },
+        initFocus: {
+            type: Boolean,
+            default: false
         }
     },
     data: () => ({

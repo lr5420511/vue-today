@@ -75,6 +75,7 @@ export default {
     }),
     mounted: function() {
         this.solution = new ElSolution(this.$el, 'touch-move', {
+            bubble: false,
             progress: (cur, old) => {
                 if(this.animating) return;
                 clearTimeout(this.timer);
@@ -123,7 +124,7 @@ export default {
             this.animating = true;
             if($refs.context) await Velocity.animate($refs.context, {
                 left: -width + vector * width
-            }, { duration: 350 });
+            }, { duration: 300 });
             this.vector = vector;
             this.$nextTick(() => this.request(vector, auto));
         },

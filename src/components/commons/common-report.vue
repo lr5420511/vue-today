@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { dateTranslater } from '../../utils/utils';  
+
 export default {
     props: {
         displayTitle: {
@@ -49,11 +51,18 @@ export default {
     computed: {
         summaryExist: cur => Boolean(cur.summary),
         sourceExist: cur => Boolean(cur.source),
-        dateTime: cur => (new Date(cur.times)).toLocaleString()
+        dateTime: cur => dateTranslater(cur.times, function() {
+            const [y, m, d, dd, h, mi, s] = [...arguments],
+                { format } = cur;
+            return `${y}年${m}月${d}日 ${format(h)}:${format(mi)}:${format(s)}`;
+        })
     },
     methods: {
         reportClick: function() {
             this.$emit('emitReportClick', this);
+        },
+        format: function(val) {
+            return String(val).length > 1 ? val : `0${val}`;
         }
     }
 };
@@ -70,7 +79,7 @@ export default {
 
 .common-report {
     .flex-mx(100%);
-    border-top: dotted 1px @v-fourth-color;
+    border-top: dashed 1px @v-fifth-color;
     &-title {
         .common-report-text-mx();
         white-space: nowrap;
@@ -89,9 +98,6 @@ export default {
         .common-report-text-mx();
         color: @v-fourth-color;
         font-size: @v-font-size * 0.8;
-        span {
-            margin-left: 0.5625rem;
-        }
     }
 }
 </style>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.cordova.hellocordova" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="BackbuttonPlugin">
+        <param name="android-package" value="com.badrit.Backbutton.BackbuttonPlugin" />
+    </feature>
+    <allow-intent href="market:*" />
+    <name>今天干啥</name>
+    <description>
+        A simple web application for android.
+    </description>
+    <icon density="mdpi" height="57" platform="ios" src="favicon.ico" width="57" />
+    <preference name="SplashScreen" value="_" />
+    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Alex liao
+    </author>
+    <content src="index.htm" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>

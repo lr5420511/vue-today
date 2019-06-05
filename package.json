@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "element-solution": "^1.0.1",
+    "element-solution": "^1.0.4",
     "fetch-polyfill": "^0.8.2",
     "mint-ui": "^2.2.13",
     "new-promiseify": "^1.1.1",

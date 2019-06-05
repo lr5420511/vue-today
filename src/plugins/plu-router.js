@@ -4,6 +4,10 @@ import VueRouter from 'vue-router';
 import PageMain from '../views/page-main.vue';
 import PageDefault from '../views/page-default.vue';
 import PageNews from '../views/page-news.vue';
+import PageSearch from '../views/page-search.vue';
+import PageHistory from '../views/page-history.vue';
+import PageResult from '../views/page-result.vue';
+import PageObserver from '../views/page-observer.vue';
 
 Vue.use(VueRouter);
 
@@ -30,6 +34,28 @@ export default new VueRouter({
                     component: PageNews
                 }
             ]
+        },
+        {
+            path: '/search',
+            component: PageSearch,
+            children: [
+                {
+                    path: '',
+                    redirect: 'history'
+                },
+                {
+                    path: 'history',
+                    component: PageHistory
+                },
+                {
+                    path: 'result/:city',
+                    component: PageResult
+                }
+            ]
+        },
+        {
+            path: '/observer/:url/:comment/:date',
+            component: PageObserver
         }
     ]
 });

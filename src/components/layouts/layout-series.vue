@@ -6,6 +6,7 @@
              }">
             <div class="layout-series-refresh"
                  ref="refresh"
+                 v-show="refreshable"
                  :style="{ 
                      height: `${refreshHeight}px`,
                      'line-height': `${refreshIconLine}px` 
@@ -43,6 +44,14 @@ export default {
         host: {
             type: HTMLElement,
             default: () => document.documentElement
+        },
+        refreshable: {
+            type: Boolean,
+            default: false
+        },
+        loadable: {
+            type: Boolean,
+            default: false
         }
     },
     data: () => ({
@@ -83,10 +92,12 @@ export default {
         }
     },
     mounted: function() {
+        const { refreshable, loadable } = this;
+        if(!(refreshable || loadable)) return;
         const maximum = this.refreshMaxHeight = this.getValue(
             this.$refs.refresh, 'maxHeight'
         );
-        this.ssolution = new ElSolution(
+        this.ssolution = loadable && (new ElSolution(
             this.host,
             'scroll-down',
             {
@@ -96,11 +107,12 @@ export default {
                     this.loadMore();
                 }
             }
-        );
-        this.tsolution = new ElSolution(
+        ));
+        this.tsolution = refreshable && (new ElSolution(
             this.host,
             'touch-down',
             {
+                bubble: false,
                 critical: maximum,
                 progress: val => {
                     if(!this.operatable) return;
@@ -113,12 +125,12 @@ export default {
                     );
                 }
             }
-        );
+        ));
     },
     destroyed: function() {
         const { ssolution, tsolution } = this;
-        ssolution.clean();
-        tsolution.clean();
+        ssolution && (ssolution.clean());
+        tsolution && (tsolution.clean());
     }
 };
 </script>

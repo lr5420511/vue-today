@@ -15,7 +15,7 @@ const conf = module.exports = {
         today: './src/app.js'
     },
     output: {
-        path: join(__dirname, 'build'),
+        path: join(__dirname, 'today-app/www/build'),
         publicPath: '/build/',
         filename: '[name]-build.js'
     },
@@ -74,7 +74,7 @@ const conf = module.exports = {
 if (prod) {
     delete conf.devServer;
     conf.plugins.push(
-        new CleanWP(['./build']),
+        new CleanWP(['./today-app/www/build']),
         new ExtractWP('/style/style.css')
     );
     conf.optimization.minimizer.push(
